@@ -2,7 +2,6 @@ import numpy as np
 import os, glob
 from os.path import join
 import time
-import logging
 
 DATA_PATH = os.getenv("DATA_PATH", os.path.abspath(os.getcwd())+'/data/' + '*.complete.npz')
 ARCHIVE_PATH = os.getenv("ARCHIVE_PATH", os.path.abspath(os.getcwd())+'/archive/')
@@ -12,6 +11,9 @@ from dcd.bucket.thing import Thing
 
 # Create an instance of Thing
 my_thing = Thing()
+
+
+my_thing.logger.info("Retrieve or create properties")
 
 # Retrieve or create properties
 property_acc_left = my_thing.find_or_create_property("Accelerometer Left", "ACCELEROMETER")
@@ -25,9 +27,9 @@ file_list = glob.glob(DATA_PATH)
 
 while True:
     try:
-        logging.log("Checking for data files to upload...")
+        my_thing.logger.info("Checking for data files to upload...")
         for file_path in file_list:
-            logging.log("Found " + file_path)
+            my_thing.logger.info("Found " + file_path)
             # Retrieve timestamp from file
             file_name = os.path.basename(file_path)
             start_timestamp = int(file_name.split(".")[0].split("-")[1])
@@ -51,7 +53,7 @@ while True:
             property_fsr.sync()
             property_label.sync()
             os.rename(file_path, ARCHIVE_PATH + os.path.basename(file_path))
-        logging.log("Done uploading data.")
+        my_thing.logger.info("Done uploading data.")
     except Exception as error:
-        logging.error(error)
+        my_thing.logger.error(error)
     time.sleep(10)
