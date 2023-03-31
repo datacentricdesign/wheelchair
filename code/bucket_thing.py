@@ -3,7 +3,7 @@ import os, glob
 from os.path import join
 import time
 
-DATA_PATH = os.getenv("DATA_PATH", os.path.abspath(os.getcwd())+'/data/' + '*.complete.npz')
+COMPLETE_DATA_PATH = os.getenv("COMPLETE_DATA_PATH", os.path.abspath(os.getcwd())+'/data/' + '*.complete.npz')
 ARCHIVE_PATH = os.getenv("ARCHIVE_PATH", os.path.abspath(os.getcwd())+'/archive/')
 
 # Import Thing from the Data-Centric Design
@@ -23,7 +23,7 @@ property_gyro_right = my_thing.find_or_create_property("Gyroscope Right", "GYROS
 property_fsr = my_thing.find_or_create_property("Wheelchair Force Distribution", "WHEELCHAIR_FORCE_DISTRIBUTION")
 property_label = my_thing.find_or_create_property("Test Label", "TEXT")
 
-file_list = glob.glob(DATA_PATH)
+file_list = glob.glob(COMPLETE_DATA_PATH)
 
 while True:
     try:
