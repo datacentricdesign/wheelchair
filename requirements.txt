@@ -1,7 +1,2 @@
-numpy
-adafruit-circuitpython-ble
-adafruit-circuitpython-ads1x15
-adafruit-circuitpython-lsm6ds
-ble-serial
 python-dotenv
 dcd-sdk
