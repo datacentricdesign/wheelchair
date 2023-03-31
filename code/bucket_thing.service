@@ -5,6 +5,7 @@ After=multi-user.target
 [Service]
 Type=simple
 ExecStart=/usr/bin/python /home/pi/wheelchair/code/bucket_thing.py
+EnvironmentFile=/home/pi/wheelchair/.env
 Restart=on-abort
 
 [Install]
