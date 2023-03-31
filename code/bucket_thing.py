@@ -3,7 +3,9 @@ import os, glob
 from os.path import join
 import time
 import logging
-from dotenv import load_dotenv
+
+DATA_PATH = os.getenv("DATA_PATH", os.path.abspath(os.getcwd())+'/data/' + '*.complete.npz')
+ARCHIVE_PATH = os.getenv("ARCHIVE_PATH", os.path.abspath(os.getcwd())+'/archive/')
 
 # Import Thing from the Data-Centric Design
 from dcd.bucket.thing import Thing
@@ -18,10 +20,6 @@ property_gyro_left = my_thing.find_or_create_property("Gyroscope Left", "GYROSCO
 property_gyro_right = my_thing.find_or_create_property("Gyroscope Right", "GYROSCOPE")
 property_fsr = my_thing.find_or_create_property("Wheelchair Force Distribution", "WHEELCHAIR_FORCE_DISTRIBUTION")
 property_label = my_thing.find_or_create_property("Test Label", "TEXT")
-
-
-DATA_PATH = os.path.abspath(os.getcwd())+'/data/' + '*.complete.npz'
-ARCHIVE_PATH = os.path.abspath(os.getcwd())+'/archive/'
 
 file_list = glob.glob(DATA_PATH)
 
