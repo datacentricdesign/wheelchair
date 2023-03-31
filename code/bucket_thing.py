@@ -23,10 +23,9 @@ property_gyro_right = my_thing.find_or_create_property("Gyroscope Right", "GYROS
 property_fsr = my_thing.find_or_create_property("Wheelchair Force Distribution", "WHEELCHAIR_FORCE_DISTRIBUTION")
 property_label = my_thing.find_or_create_property("Test Label", "TEXT")
 
-file_list = glob.glob(COMPLETE_DATA_PATH)
-
 while True:
     try:
+        file_list = glob.glob(COMPLETE_DATA_PATH)
         my_thing.logger.info("Checking for data files to upload...")
         for file_path in file_list:
             my_thing.logger.info("Found " + file_path)
