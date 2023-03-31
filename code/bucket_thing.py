@@ -54,6 +54,6 @@ while True:
             property_label.sync()
             os.rename(file_path, ARCHIVE_PATH + os.path.basename(file_path))
         logging.log("Done uploading data.")
-    except:
-        logging.log("Something went wrong")
+    except Exception as error:
+        logging.error(error)
     time.sleep(10)
