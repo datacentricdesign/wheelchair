@@ -3,9 +3,12 @@ import os, glob
 from os.path import join
 import time
 import logging
+from dotenv import load_dotenv
 
 # Import Thing from the Data-Centric Design
 from dcd.bucket.thing import Thing
+
+load_dotenv('/home/pi/wheelchair/.env')
 
 # Create an instance of Thing
 my_thing = Thing()
