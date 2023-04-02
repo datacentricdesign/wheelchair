@@ -20,6 +20,9 @@ class TimerKeeper(threading.Thread):
       self.check_time()
       
     def check_time(self):
+        # Show a count down to the user so that they start the activity to record
+        count_down(3)
+        print(f"{colors.WARNING}Recording!{colors.ENDC}")
         self.start_recording = True # start data recording
         self.start_time = round(time.time() * 1000)
         while True:
