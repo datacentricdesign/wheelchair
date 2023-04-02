@@ -22,7 +22,7 @@ class TimerKeeper(threading.Thread):
     def check_time(self):
         # Show a count down to the user so that they start the activity to record
         count_down(3)
-        print(f"{colors.WARNING}Recording!{colors.ENDC}")
+        print(f"\r{colors.WARNING}Recording!{colors.ENDC}")
         self.start_recording = True # start data recording
         self.start_time = round(time.time() * 1000)
         while True:
@@ -34,8 +34,8 @@ class TimerKeeper(threading.Thread):
                 break
             elif self.start_time > 0:
                 total = self.period
-                remaining = int(30 * time_left/total)
-                complete = int(30 * (total-time_left)/total)
+                remaining = int(40 * time_left/total)
+                complete = int(40 * (total-time_left)/total)
                 print(f"\r[{colors.GREEN}{('#' * complete)}{(' ' * remaining)}{colors.ENDC}] {round(time_left/1000)} seconds left", end="")
             time.sleep(1)
 
@@ -60,4 +60,4 @@ def count_down(seconds):
         print(f"\r[{('#' * complete)}{(' ' * remaining)}]", end="")
         time.sleep(1)
         count += 1
-    print(f"\r{colors.WARNING}{(' ' * 52)}{colors.ENDC}", end="")
+    print(f"\r{colors.WARNING}{(' ' * 52)}{colors.ENDC}")
