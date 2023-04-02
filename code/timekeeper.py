@@ -20,6 +20,8 @@ class TimerKeeper(threading.Thread):
       self.check_time()
       
     def check_time(self):
+        self.start_recording = True # start data recording
+        self.start_time = round(time.time() * 1000)
         while True:
             time_left = self.start_time + self.period - time.time()*1000
             if self.start_time > 0 and time_left < 0:

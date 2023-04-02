@@ -53,21 +53,21 @@ if __name__ == "__main__":
         if (activity_name == ""):
             break
         
-        # Show a count down to the user so that they start the activity to record
-        count_down(3)
-        print(f"{colors.WARNING}Recording!{colors.ENDC}")
-        
         # set up FSR readings
         fsr = FSR(NUMBER_FSR)
         # Set up BLE devices
         ble_devices = BLE_Devices(BLE_MAC_DEVICE_LEFT, BLE_MAC_DEVICE_RIGHT)
         
         # logging for debug
-        logging.basicConfig(level=logging.ERROR)
+        #logging.basicConfig(level=logging.ERROR)
         
         # Start timer thread
         timeKeeper = TimerKeeper(0, "Timer Keeper Thread", 0, COLLECTION_DURATION, activity_name, ble_devices)
         timeKeeper.start()
+
+        # Show a count down to the user so that they start the activity to record
+        count_down(3)
+        print(f"{colors.WARNING}Recording!{colors.ENDC}")
 
         # Start data thread
         thread_update_data = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices, SAMPLING_FREQUENCY, COMPLETE_DATA_PATH, timeKeeper)

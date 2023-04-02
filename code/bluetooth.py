@@ -1,5 +1,6 @@
 
 import asyncio, time
+from ble_serial.bluetooth.ble_interface import BLE_interface
 
 # None uses default/autodetection, insert values if needed
 ADAPTER = "hci0"
@@ -50,11 +51,11 @@ class BLE_Devices:
 
     async def connect(self):
         if self.mac_left:
-            self.ble_left = self.BLE_interface(ADAPTER, SERVICE_UUID)
+            self.ble_left = BLE_interface(ADAPTER, SERVICE_UUID)
             self.ble_left.set_receiver(self.receive_callback_left)
 
         if self.mac_right:
-            self.ble_right = self.BLE_interface(ADAPTER, SERVICE_UUID)
+            self.ble_right = BLE_interface(ADAPTER, SERVICE_UUID)
             self.ble_right.set_receiver(self.receive_callback_right)
 
         try:
@@ -66,19 +67,16 @@ class BLE_Devices:
                 await self.ble_right.connect(self.mac_right, "public", 10.0)
                 await self.ble_right.setup_chars(WRITE_UUID, READ_UUID, "rw")
             
-            start_recording = True #start data recording
-            start_time = round(time.time() * 1000)
-            
             if self.mac_left and self.mac_right:
-                await asyncio.gather(ble_left.send_loop(), ble_right.send_loop()) #triger bluetooth
+                await asyncio.gather(self.ble_left.send_loop(), self.ble_right.send_loop()) #triger bluetooth
             elif self.mac_left:
-                await asyncio.gather(ble_left.send_loop())
+                await asyncio.gather(self.ble_left.send_loop())
             elif self.mac_right: 
-                await asyncio.gather(ble_right.send_loop())
+                await asyncio.gather(self.ble_right.send_loop())
     
         except Exception as error:
             print(error)
     
         finally:
-            stop_recording = True # stop recording
+            # stop_recording = True # stop recording
             await self.ble_disconnect()
