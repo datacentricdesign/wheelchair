@@ -33,6 +33,7 @@ class DataAggregator(threading.Thread):
     # update data at a frequency 
     def update_data(self):
         output_data = []
+        logging.info('Recording...')
         while self.enabled:
             # If no timekeeper, collect forever
             if self.timeKeeper is None or self.timeKeeper.start_recording:
@@ -79,13 +80,13 @@ class Save(threading.Thread):
         self.save_data_to_file()
 
     def save_data_to_file(self):
-        logging.debug(self.data)
+        logging.info('Saving...')
         try:
             timestr_filename = f"{self.label}-{self.start_time}.npz" #create a file name
             #timestr_filename = time.strftime(activity_name+"-%Y%m%d-%H%M%S", start_time)+".npz" #create a file name
             data = np.array(self.data) # change data to numpy
             data[:,0] = data[:,0] - data[0,0] 
             np.savez(self.folder + timestr_filename, data = data) # save npz file
-            print("Data saved into file: " + timestr_filename)
+            logging.info("Data saved into file: " + timestr_filename)
         except Exception as error:
             logging.error(error)

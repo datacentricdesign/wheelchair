@@ -42,20 +42,25 @@ def signal_handler(sig, frame):
 
 if __name__ == "__main__":
     
+    logging.info('Data collection service')
+
     signal.signal(signal.SIGINT, signal_handler)
 
     # As long as the Raspbeery Pi is running
     while True:
         try:
+            logging.info('Set up sensor reading')
             # Set up FSR readings
             fsr = FSR(NUMBER_FSR)
             # Set up BLE devices
             ble_devices = BLE_Devices(BLE_MAC_DEVICE_LEFT, BLE_MAC_DEVICE_RIGHT)
 
             # Start data thread
+            logging.info('Set up the data aggregator')
             dataAggregator = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices, COMPLETE_DATA_PATH, SAMPLING_FREQUENCY, None)
             dataAggregator.start()
             
+            logging.info('Start BLE connections')
             loop = asyncio.new_event_loop()
             loop.run_until_complete(ble_devices.connect())
             loop.close()
