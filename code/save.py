@@ -19,6 +19,7 @@ class DataAggregator(threading.Thread):
             self.label = self.timeKeeper.activity
         else:
             self.label = "continuous"
+            self.start_time = round(time.time()*1000)
         self.folder = folder
         self.frequency = frequency
         self.enabled = True
@@ -49,7 +50,7 @@ class DataAggregator(threading.Thread):
                 if len(output_data) == 1000:
                     to_save = output_data
                     output_data = []
-                    save = Save(0, "Save", 0, to_save, self.label, self.label, self.folder)
+                    save = Save(0, "Save", 0, to_save, self.label, self.start_time, self.folder)
                     save.start()
 
             elif self.timeKeeper.stop_recording:
@@ -57,6 +58,8 @@ class DataAggregator(threading.Thread):
             # Frequency, now 10 hz
             time.sleep(self.frequency)
         # Flush remaining data
+        if self.timeKeeper is not None:
+            self.start_time = self.timeKeeper.start_time
         save = Save(0, "Save", 0, output_data, self.label, self.timeKeeper.start_time, self.folder)
         save.start()
 
