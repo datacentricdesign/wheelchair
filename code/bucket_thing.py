@@ -29,6 +29,7 @@ from dcd.bucket.thing import Thing
 COMPLETE_DATA_PATH = os.getenv("COMPLETE_DATA_PATH", os.path.abspath(os.getcwd())+'/data/')
 ARCHIVE_PATH = os.getenv("ARCHIVE_PATH", os.path.abspath(os.getcwd())+'/archive/')
 UPLOAD_FREQUENCY = int(os.getenv("UPLOAD_FREQUENCY", "10"))
+NUMBER_FSR = int(os.getenv("NUMBER_FSR", "0"))
 
 def initialize_properties(thing):
     """Retrieve or create properties on the server
@@ -79,15 +80,18 @@ if __name__ == "__main__":
                     # Convert relative time to absolute, in milliseconds
                     ts = start_timestamp + round(values[0]*1000)
                     # Inject data in each property
-                    properties["acc_left"].update_values(values[1:4], ts, mode='a')
-                    properties["acc_right"].update_values(values[7:10], ts, mode='a')
-                    properties["gyro_left"].update_values(values[4:7], ts, mode='a')
-                    properties["gyro_right"].update_values(values[10:13], ts, mode='a')
-                    properties["fsr"].update_values(values[13:25], ts, mode='a')
+                    if (values[1:4].sum() != 0):
+                        properties["acc_left"].update_values(values[1:4], ts, mode='a')
+                        properties["acc_right"].update_values(values[7:10], ts, mode='a')
+                    if (values[4:7].sum() != 0):
+                        properties["gyro_left"].update_values(values[4:7], ts, mode='a')
+                        properties["gyro_right"].update_values(values[10:13], ts, mode='a')
+                    if (NUMBER_FSR>0 and values[13:13+NUMBER_FSR].sum() != 0):
+                        properties["fsr"].update_values(values[13:13+NUMBER_FSR], ts, mode='a')
                     properties["label"].update_values([label], ts, mode="a")
                 # Upload data to the server
-                for property in properties:
-                    property.sync()
+                for name in properties:
+                    properties[name].sync()
                 # Move file to the archive folder
                 os.rename(file_path, ARCHIVE_PATH + os.path.basename(file_path))
             thing.logger.info("Done uploading data.")
