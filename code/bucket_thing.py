@@ -3,6 +3,18 @@
 """
 This script is meant to run as a Raspberry Pi Service.
 It connects to the Bucket Thing and continuously look for data to upload.
+
+Authors: Wolf Song, Jacky Bourgeois
+License: MIT
+
+Environment variables (.env file):
+THING_ID=dcd:things:...
+PRIVATE_KEY_PATH=/home/pi/wheelchair/private.pem
+COMPLETE_DATA_PATH=/home/pi/wheelchair/data/
+ARCHIVE_PATH=/home/pi/wheelchair/archive/
+LOG_PATH=/home/pi/wheelchair/logs
+UPLOAD_FREQUENCY=10
+
 """
 
 import numpy as np
@@ -13,7 +25,7 @@ import time
 # Import Thing from the Data-Centric Design
 from dcd.bucket.thing import Thing
 
-COMPLETE_DATA_PATH = os.getenv("COMPLETE_DATA_PATH", os.path.abspath(os.getcwd())+'/data/' + '*.complete.npz')
+COMPLETE_DATA_PATH = os.getenv("COMPLETE_DATA_PATH", os.path.abspath(os.getcwd())+'/data/')
 ARCHIVE_PATH = os.getenv("ARCHIVE_PATH", os.path.abspath(os.getcwd())+'/archive/')
 UPLOAD_FREQUENCY = int(os.getenv("UPLOAD_FREQUENCY", "10"))
 
@@ -52,7 +64,7 @@ if __name__ == "__main__":
     # Main loop. check the data file and upload all files ending with .complete.npz
     while True:
         try:
-            file_list = glob.glob(COMPLETE_DATA_PATH)
+            file_list = glob.glob(COMPLETE_DATA_PATH + '*.complete.npz')
             thing.logger.info("Checking for data files to upload...")
             for file_path in file_list:
                 thing.logger.info(f"Found file {file_path}.")
