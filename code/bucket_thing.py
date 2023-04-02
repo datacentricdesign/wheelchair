@@ -79,12 +79,12 @@ if __name__ == "__main__":
                 for values in data:
                     # Convert relative time to absolute, in milliseconds
                     ts = start_timestamp + values[0]
-                    # Inject data in each property
-                    if (values[1:4].sum() != 0):
+                    # Inject data in each property, filtering out complete lines of 0
+                    if (values[1:7].sum() != 0):
                         properties["acc_left"].update_values(values[1:4], ts, mode='a')
-                        properties["acc_right"].update_values(values[7:10], ts, mode='a')
-                    if (values[4:7].sum() != 0):
                         properties["gyro_left"].update_values(values[4:7], ts, mode='a')
+                    if (values[7:13].sum() != 0):
+                        properties["acc_right"].update_values(values[7:10], ts, mode='a')
                         properties["gyro_right"].update_values(values[10:13], ts, mode='a')
                     if (NUMBER_FSR>0 and values[13:13+NUMBER_FSR].sum() != 0):
                         properties["fsr"].update_values(values[13:13+NUMBER_FSR], ts, mode='a')
