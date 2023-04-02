@@ -43,11 +43,11 @@ class DataAggregator(threading.Thread):
             # If no timekeeper
             if self.timeKeeper is None:
                 if len(output_data) % 1000 == 0:
-                    save = Save(output_data, self.label, self.label, self.folder)
+                    save = Save(0, "Save", 0, output_data, self.label, self.label, self.folder)
                     save.start()
 
             elif self.timeKeeper.stop_recording:
-                save = Save(output_data, self.label, self.timeKeeper.start_time, self.folder)
+                save = Save(0, "Save", 0, output_data, self.label, self.timeKeeper.start_time, self.folder)
                 save.start()
                 break
             # Frequency, now 10 hz
