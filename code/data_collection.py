@@ -44,7 +44,7 @@ if __name__ == "__main__":
             ble_devices = BLE_Devices(BLE_MAC_DEVICE_LEFT, BLE_MAC_DEVICE_RIGHT)
 
             # Start data thread
-            thread_update_data = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices, COMPLETE_DATA_PATH, SAMPLING_FREQUENCY, TimerKeeper)
+            thread_update_data = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices, COMPLETE_DATA_PATH, SAMPLING_FREQUENCY)
             thread_update_data.start()
             
             loop = asyncio.new_event_loop()
