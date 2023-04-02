@@ -27,7 +27,6 @@ class DataAggregator(threading.Thread):
     # update data at a frequency 
     def update_data(self):
         output_data = []
-        count = 0
         while True:
             # If no timekeeper, collect forever
             if self.timeKeeper is None or self.timeKeeper.start_recording:
@@ -40,10 +39,12 @@ class DataAggregator(threading.Thread):
                     temp[13:13+self.fsr.number_fsr] = self.fsr.read_fsrs()
                 output_data.append(temp)
             
-            # If no timekeeper
+            # If no timekeeper, save in chuncks of 1000 records
             if self.timeKeeper is None:
-                if len(output_data) % 1000 == 0:
-                    save = Save(0, "Save", 0, output_data, self.label, self.label, self.folder)
+                if len(output_data) == 1000:
+                    to_save = output_data
+                    output_data = []
+                    save = Save(0, "Save", 0, to_save, self.label, self.label, self.folder)
                     save.start()
 
             elif self.timeKeeper.stop_recording:
