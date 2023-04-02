@@ -21,13 +21,18 @@ class DataAggregator(threading.Thread):
             self.label = "continuous"
         self.folder = folder
         self.frequency = frequency
+        self.enabled = True
+
     def run(self):
         self.update_data()
+
+    def stop_collection(self):
+        self.enabled = False
 
     # update data at a frequency 
     def update_data(self):
         output_data = []
-        while True:
+        while self.enabled:
             # If no timekeeper, collect forever
             if self.timeKeeper is None or self.timeKeeper.start_recording:
                 # output = timestamp + 6 left + 6 right + all pressures
@@ -48,11 +53,12 @@ class DataAggregator(threading.Thread):
                     save.start()
 
             elif self.timeKeeper.stop_recording:
-                save = Save(0, "Save", 0, output_data, self.label, self.timeKeeper.start_time, self.folder)
-                save.start()
-                break
+                self.enabled = False
             # Frequency, now 10 hz
             time.sleep(self.frequency)
+        # Flush remaining data
+        save = Save(0, "Save", 0, output_data, self.label, self.timeKeeper.start_time, self.folder)
+        save.start()
 
 class Save(threading.Thread):
     """ Save data in file """

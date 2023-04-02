@@ -16,7 +16,7 @@ BLE_MAC_DEVICE_RIGHT=
 NUMBER_FSR=
 """
 
-import asyncio, logging, os # system functions
+import asyncio, logging, os, signal, sys # system functions
 
 from fsr import FSR
 from bluetooth import BLE_Devices
@@ -33,8 +33,16 @@ NUMBER_FSR = int(os.getenv("NUMBER_FSR", 0))
 COMPLETE_DATA_PATH = os.getenv("COMPLETE_DATA_PATH", os.path.abspath(os.getcwd())+'/data/')
 SAMPLING_FREQUENCY = float(os.getenv("SAMPLING_FREQUENCY", 0.1))
 
+def signal_handler(sig, frame):
+    print('Disconnecting...')
+    ble_devices.ble_disconnect()
+    dataAggregator.stop_collection()
+    sys.exit(0)
+
 if __name__ == "__main__":
     
+    signal.signal(signal.SIGINT, signal_handler)
+
     # As long as the Raspbeery Pi is running
     while True:
         try:
@@ -44,8 +52,8 @@ if __name__ == "__main__":
             ble_devices = BLE_Devices(BLE_MAC_DEVICE_LEFT, BLE_MAC_DEVICE_RIGHT)
 
             # Start data thread
-            thread_update_data = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices, COMPLETE_DATA_PATH, SAMPLING_FREQUENCY, None)
-            thread_update_data.start()
+            dataAggregator = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices, COMPLETE_DATA_PATH, SAMPLING_FREQUENCY, None)
+            dataAggregator.start()
             
             loop = asyncio.new_event_loop()
             loop.run_until_complete(ble_devices.connect())

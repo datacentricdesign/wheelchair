@@ -66,8 +66,8 @@ if __name__ == "__main__":
         timeKeeper.start()
 
         # Start data thread
-        thread_update_data = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices,  COMPLETE_DATA_PATH, SAMPLING_FREQUENCY, timeKeeper)
-        thread_update_data.start()
+        dataAggregator = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices,  COMPLETE_DATA_PATH, SAMPLING_FREQUENCY, timeKeeper)
+        dataAggregator.start()
         
         loop = asyncio.new_event_loop()
         loop.run_until_complete(ble_devices.connect())
