@@ -49,6 +49,7 @@ class DataAggregator(threading.Thread):
             # If no timekeeper, save in chuncks of 1000 records
             if self.timeKeeper is None:
                 if len(output_data) == 100:
+                    print(output_data)
                     to_save = output_data
                     output_data = []
                     save = Save(0, "Save", 0, to_save, self.label, self.start_time, self.folder)
