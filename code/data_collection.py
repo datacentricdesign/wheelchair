@@ -33,9 +33,9 @@ NUMBER_FSR = int(os.getenv("NUMBER_FSR", 0))
 COMPLETE_DATA_PATH = os.getenv("COMPLETE_DATA_PATH", os.path.abspath(os.getcwd())+'/data/')
 SAMPLING_FREQUENCY = float(os.getenv("SAMPLING_FREQUENCY", 0.1))
 
-def signal_handler(sig, frame):
+async def signal_handler(sig, frame):
     print('Disconnecting...')
-    ble_devices.ble_disconnect()
+    await ble_devices.ble_disconnect()
     dataAggregator.stop_collection()
     sys.exit(0)
 
