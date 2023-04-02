@@ -40,7 +40,7 @@ def initialize_properties(thing):
         "acc_right": thing.find_or_create_property("Accelerometer Right", "ACCELEROMETER"),
         "gyro_left": thing.find_or_create_property("Gyroscope Left", "GYROSCOPE"),
         "gyro_right": thing.find_or_create_property("Gyroscope Right", "GYROSCOPE"),
-        "fsr": thing.find_or_create_property("Wheelchair Force Distribution 10", "WHEELCHAIR_FORCE_DISTRIBUTION_10"),
+        "fsr": thing.find_or_create_property("Force Distribution 10", "FSR_10"),
         "label": thing.find_or_create_property("Test Label", "TEXT")
     }
     return properties
