@@ -65,7 +65,7 @@ if __name__ == "__main__":
     # Main loop. check the data file and upload all files ending with .complete.npz
     while True:
         try:
-            file_list = glob.glob(COMPLETE_DATA_PATH + '*.complete.npz')
+            file_list = glob.glob(COMPLETE_DATA_PATH + '*.npz')
             thing.logger.info("Checking for data files to upload...")
             for file_path in file_list:
                 thing.logger.info(f"Found file {file_path}.")
