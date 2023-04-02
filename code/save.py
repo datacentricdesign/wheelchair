@@ -39,7 +39,7 @@ class DataAggregator(threading.Thread):
             if self.timeKeeper is None or self.timeKeeper.start_recording:
                 # output = timestamp + 6 left + 6 right + all pressures
                 temp = [None] * ( 1 + 6 + 6 + self.fsr.number_fsr)
-                temp[0]    = time.monotonic() #timestamp
+                temp[0]    = round(time.time()*1000) #timestamp
                 temp[1:7]  = self.ble_devices.imu_left
                 temp[7:13] = self.ble_devices.imu_right
                 if self.fsr.number_fsr > 0:
@@ -49,11 +49,11 @@ class DataAggregator(threading.Thread):
             # If no timekeeper, save in chuncks of 1000 records
             if self.timeKeeper is None:
                 if len(output_data) == 100:
-                    print(output_data)
                     to_save = output_data
                     output_data = []
                     save = Save(0, "Save", 0, to_save, self.label, self.start_time, self.folder)
                     save.start()
+                    self.start_time = round(time.time()*1000)
 
             elif self.timeKeeper.stop_recording:
                 self.enabled = False
