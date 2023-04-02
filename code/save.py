@@ -64,17 +64,18 @@ class Save(threading.Thread):
         self.label = label
         self.start_time = start_time
         self.folder = folder
+
     def run(self):
         self.save_data_to_file()
 
-    def save_data_to_file(output_data, activity_name, start_time, folder_path):
-        logging.debug(output_data)
+    def save_data_to_file(self):
+        logging.debug(self.output_data)
         try:
-            timestr_filename = f"{activity_name}-{start_time}.npz" #create a file name
+            timestr_filename = f"{self.label}-{self.start_time}.npz" #create a file name
             #timestr_filename = time.strftime(activity_name+"-%Y%m%d-%H%M%S", start_time)+".npz" #create a file name
-            data = np.array(output_data) # change data to numpy
+            data = np.array(self.data) # change data to numpy
             data[:,0] = data[:,0] - data[0,0] 
-            np.savez(folder_path + timestr_filename, data = data) # save npz file
+            np.savez(self.folder + timestr_filename, data = data) # save npz file
             print("Data saved into file: " + timestr_filename)
         except Exception as error:
             logging.error(error)
