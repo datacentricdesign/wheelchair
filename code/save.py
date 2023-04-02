@@ -60,7 +60,7 @@ class DataAggregator(threading.Thread):
         # Flush remaining data
         if self.timeKeeper is not None:
             self.start_time = self.timeKeeper.start_time
-        save = Save(0, "Save", 0, output_data, self.label, self.timeKeeper.start_time, self.folder)
+        save = Save(0, "Save", 0, output_data, self.label, self.start_time, self.folder)
         save.start()
 
 class Save(threading.Thread):
