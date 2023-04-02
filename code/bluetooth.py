@@ -28,12 +28,10 @@ class BLE_Devices:
         return  imu_data
         
     def receive_callback_left(self, value: bytes):
-        global imu_left, ble_left
-        imu_left = self.update_imu_data(value, imu_left)
+        self.imu_left = self.update_imu_data(value, self.imu_left)
 
     def receive_callback_right(self, value: bytes):
-        global imu_right, ble_right
-        imu_right = self.update_imu_data(value, imu_right)
+        self.imu_right = self.update_imu_data(value, self.imu_right)
 
     def stop(self):
         if self.mac_left:
