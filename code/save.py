@@ -69,7 +69,7 @@ class Save(threading.Thread):
         self.save_data_to_file()
 
     def save_data_to_file(self):
-        logging.debug(self.output_data)
+        logging.debug(self.data)
         try:
             timestr_filename = f"{self.label}-{self.start_time}.npz" #create a file name
             #timestr_filename = time.strftime(activity_name+"-%Y%m%d-%H%M%S", start_time)+".npz" #create a file name
