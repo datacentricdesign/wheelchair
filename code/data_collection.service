@@ -1,0 +1,12 @@
+[Unit]
+Description=Data Collection Service
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/wheelchair/code/data_collection.py
+EnvironmentFile=/home/pi/wheelchair/.env
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

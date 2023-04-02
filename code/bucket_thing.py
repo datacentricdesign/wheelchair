@@ -10,9 +10,10 @@ License: MIT
 Environment variables (.env file):
 THING_ID=dcd:things:...
 PRIVATE_KEY_PATH=/home/pi/wheelchair/private.pem
+LOG_PATH=/home/pi/wheelchair/logs
+
 COMPLETE_DATA_PATH=/home/pi/wheelchair/data/
 ARCHIVE_PATH=/home/pi/wheelchair/archive/
-LOG_PATH=/home/pi/wheelchair/logs
 UPLOAD_FREQUENCY=10
 
 """
