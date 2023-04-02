@@ -16,7 +16,7 @@ BLE_MAC_DEVICE_RIGHT=
 NUMBER_FSR=
 """
 
-import asyncio, logging, os, signal, sys, time # system functions
+import asyncio, logging, os, signal, sys # system functions
 
 from fsr import FSR
 from bluetooth import BLE_Devices
@@ -36,7 +36,7 @@ SAMPLING_FREQUENCY = float(os.getenv("SAMPLING_FREQUENCY", 0.1))
 def signal_handler(sig, frame):
     print('Disconnecting...')
     dataAggregator.stop_collection()
-    time.sleep(2)
+    ble_devices.stop()
     sys.exit(0)
 
 if __name__ == "__main__":
