@@ -26,6 +26,8 @@ from timekeeper import TimerKeeper
 from dotenv import load_dotenv
 load_dotenv()
 
+logging.basicConfig(level=logging.INFO)
+
 # use light blue in your phone to find the mac address of your seeeduino xiao
 BLE_MAC_DEVICE_LEFT = os.getenv("BLE_MAC_DEVICE_LEFT", None)
 BLE_MAC_DEVICE_RIGHT = os.getenv("BLE_MAC_DEVICE_RIGHT", None)
@@ -34,7 +36,7 @@ COMPLETE_DATA_PATH = os.getenv("COMPLETE_DATA_PATH", os.path.abspath(os.getcwd()
 SAMPLING_FREQUENCY = float(os.getenv("SAMPLING_FREQUENCY", 0.1))
 
 def signal_handler(sig, frame):
-    print('Disconnecting...')
+    logging.INFO('Disconnecting...')
     dataAggregator.stop_collection()
     ble_devices.stop()
     time.sleep(5)
