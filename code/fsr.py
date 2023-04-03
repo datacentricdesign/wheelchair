@@ -31,7 +31,7 @@ class FSR():
         return self.adc # return the handle of adc
 
     def read_fsrs(self):
-        fsr_values = [0]*self.nu # array of fsr values
+        fsr_values = [0]*self.number_fsr # array of fsr values
         for chanel in range(0,self.number_fsr):  # for each chanel
             for pin_index in range (0,4): # set the ri9ght selection
                 GPIO.output(self.mux_pins[pin_index], self.mux_selection[pin_index][chanel])
