@@ -36,12 +36,11 @@ COMPLETE_DATA_PATH = os.getenv("COMPLETE_DATA_PATH", os.path.abspath(os.getcwd()
 SAMPLING_FREQUENCY = float(os.getenv("SAMPLING_FREQUENCY", 0.1))
 
 def signal_handler(sig, frame):
-    logging.INFO('Disconnecting...')
+    print("Disconnecting...")
     global enabled
     enabled = False
     dataAggregator.stop_collection()
     ble_devices.stop()
-    time.sleep(5)
     sys.exit(0)
 
 if __name__ == "__main__":
@@ -67,9 +66,12 @@ if __name__ == "__main__":
             dataAggregator.start()
             
             logging.info('Start BLE connections')
-            loop = asyncio.new_event_loop()
-            loop.run_until_complete(ble_devices.connect())
-            loop.close()
+            if (BLE_MAC_DEVICE_LEFT is not None or BLE_MAC_DEVICE_RIGHT is not None):
+                loop = asyncio.new_event_loop()
+                loop.run_until_complete(ble_devices.connect())
+                loop.close()
+            else:
+                dataAggregator.join()
         except Exception as error:
             # catch errors and start again
             logging.error(error)
