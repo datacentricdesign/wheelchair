@@ -12,7 +12,7 @@ class FSR():
             self.mux_pins = [5,6,14,19]
             
             # adc setup
-            self.adc = self.set_up_fsr(self.ad_chanel, self.mux_pins)
+            self.adc = self.set_up_fsr()
 
             # array for mux address, 4 pins, 16 channels 
             self.mux_selection    = [[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]]*4 
