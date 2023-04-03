@@ -65,8 +65,8 @@ if __name__ == "__main__":
             dataAggregator = DataAggregator(0, "Data Aggregator Thread", 0, fsr, ble_devices, COMPLETE_DATA_PATH, SAMPLING_FREQUENCY, None)
             dataAggregator.start()
             
-            logging.info('Start BLE connections')
             if (BLE_MAC_DEVICE_LEFT is not None or BLE_MAC_DEVICE_RIGHT is not None):
+                logging.info('Start BLE connections')
                 loop = asyncio.new_event_loop()
                 loop.run_until_complete(ble_devices.connect())
                 loop.close()
