@@ -78,7 +78,7 @@ if __name__ == "__main__":
                 data = np.load(file_path)['data']
                 for values in data:
                     # Convert relative time to absolute, in milliseconds
-                    ts = start_timestamp + values[0]
+                    ts = start_timestamp + int(values[0])
                     # Inject data in each property, filtering out complete lines of 0
                     if (values[1:7].sum() != 0):
                         properties["acc_left"].update_values(values[1:4], ts, mode='a')
