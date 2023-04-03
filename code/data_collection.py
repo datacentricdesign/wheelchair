@@ -37,6 +37,8 @@ SAMPLING_FREQUENCY = float(os.getenv("SAMPLING_FREQUENCY", 0.1))
 
 def signal_handler(sig, frame):
     logging.INFO('Disconnecting...')
+    global enabled
+    enabled = False
     dataAggregator.stop_collection()
     ble_devices.stop()
     time.sleep(5)
@@ -48,8 +50,10 @@ if __name__ == "__main__":
 
     signal.signal(signal.SIGINT, signal_handler)
 
-    # As long as the Raspbeery Pi is running
-    while True:
+    enabled = True
+
+    # As long as the Raspbeery Pi is running or an interruption is caught
+    while enabled:
         try:
             logging.info('Set up sensor reading')
             # Set up FSR readings
