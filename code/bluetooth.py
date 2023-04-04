@@ -44,7 +44,7 @@ class BLE_Devices:
     async def ble_disconnect(self):
         if self.mac_left:
             await self.ble_left.disconnect()
-        if self.ble_right:
+        if self.mac_right:
             await self.ble_right.disconnect()
 
     async def connect(self):

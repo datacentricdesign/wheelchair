@@ -5,7 +5,6 @@ layout: home
 
 # Wheelchair Prototyping Platform
 
-
 ## Step 1 Get the code on your Raspberry Pi
 
 To get all the resources of this repository on your Raspberry Pi, open a terminal and enter the following command:
