@@ -48,6 +48,7 @@ def initialize_properties(thing):
 
 
 if __name__ == "__main__":
+    
     thing = None
     properties = None
 
@@ -62,11 +63,15 @@ if __name__ == "__main__":
             # Wait a moment and try again.
             print(error)
             time.sleep(5)
+            #exit()
+    
 
     # Main loop. check the data file and upload all files ending with .complete.npz
     while True:
         try:
             file_list = glob.glob(COMPLETE_DATA_PATH + '*.npz')
+            #print(file_list)
+            #exit()
             thing.logger.info("Checking for data files to upload...")
             for file_path in file_list:
                 thing.logger.info(f"Found file {file_path}.")
@@ -76,19 +81,22 @@ if __name__ == "__main__":
                 label = file_name.split(".")[0].split("-")[0]
                 # Load the npz data file
                 data = np.load(file_path)['data']
+                #print(data)
+                #exit()
                 for values in data:
                     # Convert relative time to absolute, in milliseconds
                     ts = start_timestamp + int(values[0])
                     # Inject data in each property, filtering out complete lines of 0
                     if (values[1:7].sum() != 0):
-                        properties["acc_left"].update_values(values[1:4], ts, mode='a')
-                        properties["gyro_left"].update_values(values[4:7], ts, mode='a')
+                        properties["acc_left"].update_values([float(i) for i in values[1:4]], ts, mode='a')
+                        properties["gyro_left"].update_values([float(i) for i in values[4:7]], ts, mode='a')
                     if (values[7:13].sum() != 0):
-                        properties["acc_right"].update_values(values[7:10], ts, mode='a')
-                        properties["gyro_right"].update_values(values[10:13], ts, mode='a')
+                        properties["acc_right"].update_values([float(i) for i in values[7:10]], ts, mode='a')
+                        properties["gyro_right"].update_values([float(i) for i in values[10:13]], ts, mode='a')
                     if (NUMBER_FSR>0 and values[13:13+NUMBER_FSR].sum() != 0):
-                        properties["fsr"].update_values(values[13:13+NUMBER_FSR], ts, mode='a')
+                        properties["fsr"].update_values([int(i) for i in values[13:13+NUMBER_FSR]], ts, mode='a')
                     properties["label"].update_values([label], ts, mode="a")
+                #print(properties)
                 # Upload data to the server
                 for name in properties:
                     properties[name].sync()
